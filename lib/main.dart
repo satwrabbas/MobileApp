@@ -194,5 +194,5 @@ class SupabaseConnector extends ps.PowerSyncBackendConnector {
   }
 
   @override
-  Future<void> uploadData(ps.PowerSyncDatabase database) async => null;
+  Future<void> uploadData(ps.PowerSyncDatabase database) async {}
 }
