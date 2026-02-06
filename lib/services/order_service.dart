@@ -1,16 +1,9 @@
-// lib/services/order_service.dart
+//lib/services/order_service.dart
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../constants.dart';
-
-// نموذج المنتج في السلة (ننقله هنا أو في ملف models منفصل)
-class CartItem {
-  final Map<String, dynamic> product;
-  int quantity;
-  CartItem({required this.product, this.quantity = 1});
-}
+import '../core/constants.dart';
+import '../models/cart_item.dart';
 
 class OrderService {
-  // دالة إرسال الطلب
   static Future<void> submitOrder(List<CartItem> cart) async {
     if (cart.isEmpty) throw Exception("السلة فارغة!");
 

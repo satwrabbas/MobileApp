@@ -1,10 +1,11 @@
-// lib/widgets/cart_sheet.dart
+//lib/view/widgets/cart_sheet.dart
 import 'package:flutter/material.dart';
-import '../services/order_service.dart';
+import '../../models/cart_item.dart';
+import '../../services/order_service.dart';
 
 class CartBottomSheet extends StatefulWidget {
   final List<CartItem> cart;
-  final VoidCallback onClearCart; // دالة يتم استدعاؤها عند نجاح الطلب لتنظيف السلة
+  final VoidCallback onClearCart;
 
   const CartBottomSheet({super.key, required this.cart, required this.onClearCart});
 
@@ -20,10 +21,10 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
     try {
       await OrderService.submitOrder(widget.cart);
       
-      widget.onClearCart(); // تنظيف السلة في الصفحة الرئيسية
+      widget.onClearCart();
       
       if (mounted) {
-        Navigator.pop(context); // إغلاق النافذة
+        Navigator.pop(context);
         showDialog(
           context: context,
           builder: (_) => const AlertDialog(
@@ -33,7 +34,11 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('خطأ: $e'), backgroundColor: Colors.red));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('خطأ: $e'), backgroundColor: Colors.red)
+        );
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -77,7 +82,11 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               child: _isLoading 
-                ? const CircularProgressIndicator(color: Colors.white)
+                ? const SizedBox(
+                    height: 20, 
+                    width: 20, 
+                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
+                  )
                 : Text(
                     widget.cart.isEmpty ? 'السلة فارغة' : 'تأكيد الطلب (${total.toStringAsFixed(2)} \$)',
                     style: const TextStyle(fontSize: 18),

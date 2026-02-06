@@ -1,4 +1,4 @@
-// lib/constants.dart
+// lib/core/constants.dart
 
 const String SUPABASE_URL = 'https://rtflhjvtgixwqkwcepdy.supabase.co';
 
